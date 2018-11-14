@@ -58,17 +58,15 @@ export default {
         || (this.findAngle(A,B,C)>=((-Math.PI)/24) && (this.findAngle(A,B,C)<=((Math.PI)/24)))){
           //neglet a value of PI/24 to decrease some precision
         return true
-      }else{
-        return false
       }
+      return false
     },
     angleIsPI:function(A,B,C){
       if((Math.abs(this.findAngle(A,B,C))>=Math.PI*(23/24)) && (Math.abs(this.findAngle(A,B,C))<=Math.PI*(25/24))){
         //neglet a value of PI/24 to decrease some precision
         return true
-      }else{
-        return false
       }
+      return false
     },
     findAngle:function(p0,p1,p2) {//p1 is the center of the angle
       let a = Math.pow(p1.x-p0.x,2) + Math.pow(p1.y-p0.y,2),
@@ -88,12 +86,11 @@ export default {
     checkExtremities:function(collisionP,pt1,pt2){
       if(this.isEquivalent(collisionP,pt1) || this.isEquivalent(collisionP,pt2)){
         return true
-      }else{
-        return false
       }
+      return false
     },
     checkIntersection:function(point1,point2,indexP1,indexP2){ //point1 & point2 the 2 extremities of the line
-        //to check its intersection with the polygon
+        //to check its intersection with the polygon, indexP1 indexP2 their respective indexes
       let updateMode=this.$data.updateMode
       if(this.$data.index>=3){
         let intersections=[],distances=[]
@@ -108,17 +105,18 @@ export default {
                   //the intersection happens inside the line not in extremities
                 intersections.push(k)
                 distances.push(math.distance([point2.x,point2.y],[collisionP.x,collisionP.y]))
-                //calculate distance between the new point & the intersected line
+                //calculate distance between the new point & the collision point
               }
             }else{
-              noInters.push(k)
+              noInters.push(k) //this array pushes the lines that have no intersections with the new line
+                //to verify if they actually are aligned with the new line (make the same line)
             }
           }
         }
         if(intersections.length!=0){
           let z=0
           let dis=distances[0],disIndex=0
-          while(z<distances.length){
+          while(z<distances.length){ //find the minimum distance of all distances
             z++
             if(distances[z]<=dis){
               if(intersections[z]>=this.$data.elements.length){
@@ -259,9 +257,8 @@ export default {
     isEquivalent:function(a, b) {
       if(this.$_.isEqual(a,b)){
         return true
-      }else{
-        return false
       }
+      return false
     }
   },
   data(){
